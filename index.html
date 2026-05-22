@@ -722,7 +722,48 @@
       letter-spacing: 0.02em;
     }
 
-.timeline-detail {
+    .timeline-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-teal);
+      letter-spacing: 0.04em;
+      transition: opacity 0.3s ease, margin 0.3s ease;
+    }
+
+    .timeline-hint-dot {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      animation: timeline-blink 1.2s ease-in-out infinite;
+    }
+
+    @keyframes timeline-blink {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(0, 201, 167, 0.55);
+      }
+      50% {
+        opacity: 0.3;
+        box-shadow: 0 0 10px 3px rgba(0, 201, 167, 0.35);
+      }
+    }
+
+    .timeline-item:hover .timeline-hint,
+    .timeline-item.active .timeline-hint {
+      opacity: 0;
+      margin-top: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .timeline-detail {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
@@ -730,14 +771,14 @@
     }
 
     .timeline-item.active .timeline-detail {
-      max-height: 200px;
+      max-height: 480px;
       opacity: 1;
       margin-top: 10px;
     }
 
     /* All timeline items: show detail on hover */
     .timeline-item:hover .timeline-detail {
-      max-height: 200px;
+      max-height: 480px;
       opacity: 1;
       margin-top: 10px;
     }
@@ -1982,6 +2023,7 @@
               <h3 class="timeline-title">Indiana University Bloomington</h3>
               <p class="timeline-sub">MS Computer Science · GPA 3.8/4.0</p>
               <p class="timeline-location">📍 Bloomington, Indiana, USA</p>
+              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-iu">
                 <p class="coursework-heading">Coursework</p>
                 <ul class="coursework-list">
@@ -2004,6 +2046,7 @@
               <h3 class="timeline-title">MyEdMaster LLC</h3>
               <p class="timeline-sub">Data Engineer Intern</p>
               <p class="timeline-location">📍 Virginia, USA · Remote</p>
+              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-myedmaster">
                 <p>Supported end to end Snowflake data migration by building 12 SQL validation rules that improved data accuracy by 80%. Created KPI dashboards to track 8 SAT performance metrics and highlight student score trends</p>
               </div>
@@ -2019,6 +2062,7 @@
               <h3 class="timeline-title">ACUTECH Energy LLP</h3>
               <p class="timeline-sub">Data Analytics Intern</p>
               <p class="timeline-location">📍 Mumbai, India</p>
+              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-acutech">
                 <p>Analyzed Mailchimp campaign results and customer consumption data. Used A/B testing and clustering to improve targeting strategy, identify high-value customer segments, and supported weekly performance reporting.</p>
               </div>
@@ -2034,6 +2078,7 @@
               <h3 class="timeline-title">KJ Somaiya College of Engineering</h3>
               <p class="timeline-sub">B.Tech Information Technology · GPA 3.8/4.0</p>
               <p class="timeline-location">📍 Mumbai, India</p>
+              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-kj">
                 <p class="coursework-heading">Coursework</p>
                 <ul class="coursework-list">
@@ -2831,9 +2876,31 @@ Tracks overdue balances and cash-flow gaps with Teams/email updates for finance 
     // ABOUT — TIMELINE CLICK
     // ═══════════════════════════════════════
     document.querySelectorAll('.timeline-item').forEach(item => {
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('aria-expanded', 'false');
+
+      const setExpanded = (expanded) => {
+        item.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      };
+
       item.addEventListener('click', () => {
-        document.querySelectorAll('.timeline-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.timeline-item').forEach(i => {
+          i.classList.remove('active');
+          i.setAttribute('aria-expanded', 'false');
+        });
+        if (!isActive) {
+          item.classList.add('active');
+          setExpanded(true);
+        }
+      });
+
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          item.click();
+        }
       });
     });
 
