@@ -722,72 +722,17 @@
       letter-spacing: 0.02em;
     }
 
-    .timeline-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--accent-teal);
-      letter-spacing: 0.04em;
-      transition: opacity 0.3s ease, margin 0.3s ease;
-    }
-
-    .timeline-hint-dot {
-      flex-shrink: 0;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent-teal);
-      animation: timeline-blink 1.2s ease-in-out infinite;
-    }
-
-    @keyframes timeline-blink {
-      0%, 100% {
-        opacity: 1;
-        box-shadow: 0 0 0 0 rgba(0, 201, 167, 0.55);
-      }
-      50% {
-        opacity: 0.3;
-        box-shadow: 0 0 10px 3px rgba(0, 201, 167, 0.35);
-      }
-    }
-
-    .timeline-item:hover .timeline-hint,
-    .timeline-item.active .timeline-hint {
-      opacity: 0;
-      margin-top: 0;
-      height: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
     .timeline-detail {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.3s ease;
+      display: none;
+      margin-top: 10px;
     }
 
     .timeline-item.active .timeline-detail {
-      max-height: 480px;
-      opacity: 1;
-      margin-top: 10px;
+      display: block;
     }
 
-    /* All timeline items: show detail on hover */
-    .timeline-item:hover .timeline-detail {
-      max-height: 480px;
-      opacity: 1;
-      margin-top: 10px;
-    }
-
-    /* All timeline items: dot glows on hover */
     .timeline-item:hover .timeline-dot {
       border-color: var(--accent-teal);
-      background: var(--accent-teal);
-      box-shadow: 0 0 0 4px rgba(0,201,167,0.2);
     }
 
     .timeline-detail p {
@@ -844,9 +789,37 @@
       transform: translateY(0);
     }
 
+    /* About — tablet (iPad) */
+    @media (max-width: 1024px) {
+      .about-grid { gap: 56px; }
+      .about-bio p { font-size: 15px; }
+      .timeline-title { font-size: 16px; }
+    }
+
+    /* About — phone */
     @media (max-width: 768px) {
       #about { padding: var(--section-padding-mobile) 0; }
-      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .about-bio p { font-size: 15px; line-height: 1.75; }
+      .about-highlights { gap: 10px; margin-top: 20px; }
+      .about-highlight-card { padding: 12px 14px; }
+      .ahl-value { white-space: normal; font-size: 12px; }
+      .about-timeline { padding-left: 18px; }
+      .timeline-item { padding: 0 0 28px 26px; }
+      .timeline-dot { width: 14px; height: 14px; left: -6px; }
+      .timeline-title { font-size: 15px; word-break: break-word; }
+      .timeline-sub, .timeline-detail p, .coursework-list li { font-size: 13px; }
+      .timeline-year, .timeline-location { font-size: 10px; }
+    }
+
+    /* About — small phone */
+    @media (max-width: 480px) {
+      .about-highlights { grid-template-columns: 1fr; }
+      .about-highlight-card { gap: 10px; }
+      .timeline-item { padding: 0 0 24px 22px; }
     }
 
     /* ═══════════════════════════════════════
@@ -2014,7 +1987,7 @@
         </div>
 
         <div class="about-timeline">
-          <div class="timeline-item" data-id="iu">
+          <div class="timeline-item active" data-id="iu" aria-expanded="true">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
               <div class="timeline-header">
@@ -2023,7 +1996,6 @@
               <h3 class="timeline-title">Indiana University Bloomington</h3>
               <p class="timeline-sub">MS Computer Science · GPA 3.8/4.0</p>
               <p class="timeline-location">📍 Bloomington, Indiana, USA</p>
-              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-iu">
                 <p class="coursework-heading">Coursework</p>
                 <ul class="coursework-list">
@@ -2046,7 +2018,6 @@
               <h3 class="timeline-title">MyEdMaster LLC</h3>
               <p class="timeline-sub">Data Engineer Intern</p>
               <p class="timeline-location">📍 Virginia, USA · Remote</p>
-              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-myedmaster">
                 <p>Supported end to end Snowflake data migration by building 12 SQL validation rules that improved data accuracy by 80%. Created KPI dashboards to track 8 SAT performance metrics and highlight student score trends</p>
               </div>
@@ -2062,7 +2033,6 @@
               <h3 class="timeline-title">ACUTECH Energy LLP</h3>
               <p class="timeline-sub">Data Analytics Intern</p>
               <p class="timeline-location">📍 Mumbai, India</p>
-              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-acutech">
                 <p>Analyzed Mailchimp campaign results and customer consumption data. Used A/B testing and clustering to improve targeting strategy, identify high-value customer segments, and supported weekly performance reporting.</p>
               </div>
@@ -2078,7 +2048,6 @@
               <h3 class="timeline-title">KJ Somaiya College of Engineering</h3>
               <p class="timeline-sub">B.Tech Information Technology · GPA 3.8/4.0</p>
               <p class="timeline-location">📍 Mumbai, India</p>
-              <p class="timeline-hint"><span class="timeline-hint-dot" aria-hidden="true"></span>Click to know more</p>
               <div class="timeline-detail" id="detail-kj">
                 <p class="coursework-heading">Coursework</p>
                 <ul class="coursework-list">
@@ -2873,16 +2842,26 @@ Tracks overdue balances and cash-flow gaps with Teams/email updates for finance 
     drawParticles();
 
     // ═══════════════════════════════════════
-    // ABOUT — TIMELINE CLICK
+    // ABOUT — TIMELINE (IU open by default in About)
     // ═══════════════════════════════════════
+    const iuTimelineItem = document.querySelector('.timeline-item[data-id="iu"]');
+
+    function openIUTimeline() {
+      if (!iuTimelineItem) return;
+      document.querySelectorAll('.timeline-item').forEach(i => {
+        i.classList.remove('active');
+        i.setAttribute('aria-expanded', 'false');
+      });
+      iuTimelineItem.classList.add('active');
+      iuTimelineItem.setAttribute('aria-expanded', 'true');
+    }
+
     document.querySelectorAll('.timeline-item').forEach(item => {
       item.setAttribute('role', 'button');
       item.setAttribute('tabindex', '0');
-      item.setAttribute('aria-expanded', 'false');
-
-      const setExpanded = (expanded) => {
-        item.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      };
+      if (!item.hasAttribute('aria-expanded')) {
+        item.setAttribute('aria-expanded', 'false');
+      }
 
       item.addEventListener('click', () => {
         const isActive = item.classList.contains('active');
@@ -2892,7 +2871,7 @@ Tracks overdue balances and cash-flow gaps with Teams/email updates for finance 
         });
         if (!isActive) {
           item.classList.add('active');
-          setExpanded(true);
+          item.setAttribute('aria-expanded', 'true');
         }
       });
 
@@ -2903,6 +2882,14 @@ Tracks overdue balances and cash-flow gaps with Teams/email updates for finance 
         }
       });
     });
+
+    document.querySelectorAll('a[href="#about"]').forEach(link => {
+      link.addEventListener('click', openIUTimeline);
+    });
+
+    if (window.location.hash === '#about') {
+      openIUTimeline();
+    }
 
     // ═══════════════════════════════════════
     // EXPERIENCE — ACCORDION
