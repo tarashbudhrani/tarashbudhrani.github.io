@@ -111,7 +111,13 @@
     }
 
     @media (max-width: 768px) {
-      .section-title { font-size: 28px; }
+      .section-title { font-size: 28px; margin-bottom: 40px; }
+      .container { padding: 0 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 14px; }
+      .section-title { font-size: 24px; }
     }
 
     /* ═══════════════════════════════════════
@@ -784,9 +790,28 @@
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
-    .about-bio.visible, .timeline-item.visible {
+    .about-bio.visible, .timeline-item.visible,
+    .timeline-item.active {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .timeline-content {
+      min-width: 0;
+      overflow-wrap: break-word;
+    }
+
+    .timeline-mobile-hint {
+      display: none;
+      margin-bottom: 20px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(0, 201, 167, 0.08);
+      border: 1px solid rgba(0, 201, 167, 0.25);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-teal);
+      line-height: 1.5;
     }
 
     /* About — tablet (iPad) */
@@ -798,7 +823,8 @@
 
     /* About — phone */
     @media (max-width: 768px) {
-      #about { padding: var(--section-padding-mobile) 0; }
+      #about { padding: var(--section-padding-mobile) 0; overflow-x: hidden; }
+      .timeline-mobile-hint { display: block; }
       .about-grid {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -832,8 +858,10 @@
 
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: var(--card-gap);
+      width: 100%;
+      min-width: 0;
     }
 
     .skill-category {
@@ -841,7 +869,8 @@
       border: 1px solid var(--border-default);
       border-radius: var(--radius-card);
       padding: var(--card-padding);
-      transition: border-color 0.3s, transform 0.3s;
+      min-width: 0;
+      overflow: hidden;
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 0.8s ease, transform 0.8s ease, border-color 0.3s, box-shadow 0.3s;
@@ -874,6 +903,9 @@
       font-weight: 600;
       color: var(--text-primary);
       flex: 1;
+      min-width: 0;
+      word-break: break-word;
+      line-height: 1.3;
     }
 
     .skill-count {
@@ -894,6 +926,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      min-width: 0;
     }
 
     .skill-tag {
@@ -910,6 +943,10 @@
       cursor: pointer;
       transition: all 0.3s;
       position: relative;
+      max-width: 100%;
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.4;
     }
 
     .skill-tag:hover {
@@ -956,9 +993,28 @@
     .skill-dot.orange { background: #F97316; }
     .skill-dot.coral  { background: #FB7185; }
 
+    @media (max-width: 1024px) {
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .skill-category { padding: 22px; }
+      .skill-cat-title { font-size: 16px; }
+    }
+
     @media (max-width: 768px) {
-      #skills { padding: var(--section-padding-mobile) 0; }
-      .skills-grid { grid-template-columns: 1fr; }
+      #skills { padding: var(--section-padding-mobile) 0; overflow-x: hidden; }
+      #skills .section-title { margin-bottom: 40px; font-size: 28px; }
+      .skills-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+      }
+      .skill-category { padding: 18px; }
+      .skill-cat-header { margin-bottom: 14px; padding-bottom: 12px; }
+      .skill-cat-title { font-size: 15px; }
+      .skill-tag { font-size: 12px; padding: 7px 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .skills-grid { gap: 12px; }
+      .skill-category { padding: 16px; }
     }
 
     /* ═══════════════════════════════════════
@@ -1987,7 +2043,8 @@
         </div>
 
         <div class="about-timeline">
-          <div class="timeline-item active" data-id="iu" aria-expanded="true">
+          <p class="timeline-mobile-hint">Indiana University is open below. Tap any role to switch details.</p>
+          <div class="timeline-item active visible" data-id="iu" aria-expanded="true">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
               <div class="timeline-header">
@@ -2336,7 +2393,7 @@ Tracks overdue balances and cash-flow gaps with Teams/email updates for finance 
       <p class="section-label">/* 03. technical_skills */</p>
       <h2 class="section-title">Skills &amp; Expertise</h2>
       <p class="section-subtitle">A comprehensive toolkit for data analytics, science, and business intelligence</p>
-      <div class="skills-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="skills-grid">
 
         <div class="skill-category">
           <div class="skill-cat-header">
@@ -2845,6 +2902,9 @@ Tracks overdue balances and cash-flow gaps with Teams/email updates for finance 
     // ABOUT — TIMELINE (IU open by default in About)
     // ═══════════════════════════════════════
     const iuTimelineItem = document.querySelector('.timeline-item[data-id="iu"]');
+    if (iuTimelineItem) {
+      iuTimelineItem.classList.add('visible');
+    }
 
     function openIUTimeline() {
       if (!iuTimelineItem) return;
