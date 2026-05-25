@@ -110,14 +110,43 @@
       line-height: 1.6;
     }
 
+    section {
+      scroll-margin-top: 88px;
+    }
+
     @media (max-width: 768px) {
-      .section-title { font-size: 28px; margin-bottom: 40px; }
       .container { padding: 0 18px; }
+      .section-label {
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+      .section-title {
+        font-size: 30px;
+        line-height: 1.15;
+        margin-bottom: 18px;
+      }
+      .section-title + .section-subtitle {
+        margin-top: 0;
+      }
+      .section-subtitle {
+        font-size: 1rem;
+        line-height: 1.55;
+        margin-bottom: 32px;
+        color: var(--text-secondary);
+      }
     }
 
     @media (max-width: 480px) {
-      .container { padding: 0 14px; }
-      .section-title { font-size: 24px; }
+      .container { padding: 0 16px; }
+      section { scroll-margin-top: 76px; }
+      .section-title {
+        font-size: 26px;
+        margin-bottom: 16px;
+      }
+      .section-subtitle {
+        font-size: 0.9375rem;
+        margin-bottom: 28px;
+      }
     }
 
     /* ═══════════════════════════════════════
@@ -801,19 +830,6 @@
       overflow-wrap: break-word;
     }
 
-    .timeline-mobile-hint {
-      display: none;
-      margin-bottom: 20px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: rgba(0, 201, 167, 0.08);
-      border: 1px solid rgba(0, 201, 167, 0.25);
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--accent-teal);
-      line-height: 1.5;
-    }
-
     /* About — tablet (iPad) */
     @media (max-width: 1024px) {
       .about-grid { gap: 56px; }
@@ -824,7 +840,6 @@
     /* About — phone */
     @media (max-width: 768px) {
       #about { padding: var(--section-padding-mobile) 0; overflow-x: hidden; }
-      .timeline-mobile-hint { display: block; }
       .about-grid {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -999,22 +1014,61 @@
       .skill-cat-title { font-size: 16px; }
     }
 
+    .skills-section-header {
+      margin-bottom: 0;
+    }
+
     @media (max-width: 768px) {
-      #skills { padding: var(--section-padding-mobile) 0; overflow-x: hidden; }
-      #skills .section-title { margin-bottom: 40px; font-size: 28px; }
+      #skills {
+        padding: 52px 0 56px;
+        overflow-x: hidden;
+      }
+      #skills .skills-section-header .section-title {
+        font-size: 30px;
+        margin-bottom: 18px;
+      }
+      #skills .skills-section-header .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 32px;
+      }
       .skills-grid {
         grid-template-columns: 1fr !important;
         gap: 16px;
+        margin-top: 0;
       }
-      .skill-category { padding: 18px; }
-      .skill-cat-header { margin-bottom: 14px; padding-bottom: 12px; }
-      .skill-cat-title { font-size: 15px; }
-      .skill-tag { font-size: 12px; padding: 7px 12px; }
+      .skill-category {
+        padding: 18px;
+        transform: translateY(12px);
+      }
+      .skill-category.visible {
+        transform: translateY(0);
+      }
+      .skill-category:hover {
+        transform: translateY(0);
+      }
+      .skill-cat-header {
+        margin-bottom: 14px;
+        padding-bottom: 12px;
+        align-items: flex-start;
+      }
+      .skill-cat-icon { font-size: 20px; margin-top: 2px; }
+      .skill-cat-title { font-size: 16px; }
+      .skill-tag { font-size: 13px; padding: 8px 12px; }
     }
 
     @media (max-width: 480px) {
+      #skills { padding: 44px 0 48px; }
+      #skills .skills-section-header .section-title {
+        font-size: 26px;
+        margin-bottom: 16px;
+      }
+      #skills .skills-section-header .section-subtitle {
+        font-size: 0.9375rem;
+        margin-bottom: 28px;
+      }
       .skills-grid { gap: 12px; }
       .skill-category { padding: 16px; }
+      .skill-cat-title { font-size: 15px; }
     }
 
     /* ═══════════════════════════════════════
@@ -2043,7 +2097,6 @@
         </div>
 
         <div class="about-timeline">
-          <p class="timeline-mobile-hint">Indiana University is open below. Tap any role to switch details.</p>
           <div class="timeline-item active visible" data-id="iu" aria-expanded="true">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
@@ -2390,9 +2443,11 @@ Tracks overdue balances and cash-flow gaps with Teams/email updates for finance 
   <!-- SKILLS -->
   <section id="skills">
     <div class="container">
-      <p class="section-label">/* 03. technical_skills */</p>
-      <h2 class="section-title">Skills &amp; Expertise</h2>
-      <p class="section-subtitle">A comprehensive toolkit for data analytics, science, and business intelligence</p>
+      <div class="skills-section-header">
+        <p class="section-label">/* 03. technical_skills */</p>
+        <h2 class="section-title">Skills &amp; Expertise</h2>
+        <p class="section-subtitle">A comprehensive toolkit for data analytics, science, and business intelligence</p>
+      </div>
       <div class="skills-grid">
 
         <div class="skill-category">
